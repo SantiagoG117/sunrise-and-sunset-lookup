@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sunrise &amp; Sunset lookup</string>
+    <string name="hello_message">Hola! Bienvenidos</string>
+    <string name="button_message">Soy un boton</string>
+</resources>
