@@ -1,21 +1,20 @@
 package ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import algonquin.cst2335.sunrisesunsetlookup.databinding.ActivityMainBinding;
 import algonquin.cst2335.sunrisesunsetlookup.data.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
     //? Attributes
-    private ActivityMainBinding binding;
+    private ActivityMainBinding variableBinding;
     private MainViewModel model;
 
 
@@ -53,25 +52,7 @@ public class MainActivity extends AppCompatActivity {
          * inflates the layout defined in activity_main.xml and creates an object that provides direct
          * references to the views (widgets) in our layout.
          */
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-
-        /*
-         * Sets the content view of the activity to the root view of the layout. By calling
-         * binding.getRoot() in setContentView() we are specifying that the content of the activity
-         * should be the layout defined in activity_main.xml
-         */
-        setContentView(binding.getRoot());
-
-
-
-
-        /*
-         When we call a given view we need to store the result in a variable to call functions later
-         The Java class name always matches the <XML> tag of the object with the ID we are calling.
-         */
-        //TextView myText = findViewById(R.id.textview);
-        //Button myButton = findViewById(R.id.mybutton);
-        //EditText myEdit = findViewById(R.id.myedittext);
+        variableBinding = ActivityMainBinding.inflate(getLayoutInflater());
 
         /*
          * With binding we no longer need to call finViewById() because the compiler has pre-declared
@@ -79,13 +60,11 @@ public class MainActivity extends AppCompatActivity {
          * are part of the layout we have inflated.
          */
 
-        TextView myText = binding.textview;
-        Button myButton = binding.mybutton;
-        EditText myEdit = binding.myedittext;
-
+        TextView myText = variableBinding.textview;
+        Button myButton = variableBinding.mybutton;
+        EditText myEdit = variableBinding.myedittext;
 
         //? Actions on the widgets
-
         /*
          * Buttons:
          *   to specify an action when the button is pressed, we must set a click listener on
@@ -98,42 +77,55 @@ public class MainActivity extends AppCompatActivity {
 
         //* By sending the attribute editString of the MainViewModel to myedittext widget we ensure
         // * that the text survives the orientation changes
-        // Prevents that when we click on the button, we set the text of the Ma
-        binding.myedittext.setText((CharSequence) model.editString);
 
-        binding.mybutton.setOnClickListener(click -> {
+        variableBinding.myedittext.setText(model.editString.getValue());
+
+        variableBinding.mybutton.setOnClickListener(click -> {
             /*
-            * Set the editString variable on MainViewModel to the current value of the Edit text so
-            * it does not get lost when rotating the device.
-            *
-            * Whenever we want to change the value of a MutableLiveData variable of MainViewModel,
-            * we can use the postValue() function.
+             * Set the editString variable on MainViewModel to the current value of the Edit text so
+             * it does not get lost when rotating the device.
+             *
+             * Whenever we want to change the value of a MutableLiveData variable of MainViewModel,
+             * we can use the postValue() function.
+             *
              */
-            model.editString.postValue(binding.myedittext.getText().toString());
-
-            /*
-            * postValue() not only change the value, but it* also notifies any objects that are
-            * observing this variable for changes. This is achieve by implementing the Observer
-            * Pattern. To achieve this we must register to be an observer of the MutableLiveData
-            * variable by calling the Observer interface implemented by the MutableLiveData class.
-            * This class has a single function called onChanged(), which gets called whenever the
-            * MutableLiveData object changes its values.
-             */
-
-            model.editString.observe(this, s -> {
-                binding.myedittext.setText("Your edit text has: " + s);
-            });
+            model.editString.postValue(variableBinding.myedittext.getText().toString());
         });
-        /*myButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Code here executes on main thread after user presses button
-                //* Returns a String representing the text currently shown by the object
-                String editString = myEdit.getText().toString();
-                //* Set a new value to the EditText
-                myEdit.setText("Your edit text has: " + editString);
-            }
-        });*/
+
+        /*
+         * postValue() not only change the value, but it also notifies any objects that are
+         * observing this variable for changes. This is achieve by implementing the Observer
+         * Pattern. To achieve this we must register to be an observer of the MutableLiveData
+         * variable by calling the Observer interface implemented by the MutableLiveData class.
+         * This class has a single function called onChanged(), which gets called whenever the
+         * MutableLiveData object changes its values.
+         */
+
+        model.editString.observe(this, (s) -> {
+            myText.setText("Your edit has changed to: " + s);
+        });
+
+        /*
+         * Sets the content view of the activity to the root view of the layout. By calling
+         * binding.getRoot() in setContentView() we are specifying that the content of the activity
+         * should be the layout defined in activity_main.xml
+         */
+        setContentView(variableBinding.getRoot());
+
+        variableBinding.radioButton.setOnCheckedChangeListener((button, onOrOff) -> {
+            model.onOrOff.postValue(onOrOff);
+        });
+
+
+        model.onOrOff.observe(this, newValue -> {
+            variableBinding.radioButton.setChecked(newValue);
+            //? Toast object
+            String toastValue = "The value is " + newValue;
+            //* Instantiate the Toast Object
+            Toast.makeText(this, toastValue, Toast.LENGTH_SHORT).show();
+        });
+
+
 
 
 

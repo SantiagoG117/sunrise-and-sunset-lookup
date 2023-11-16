@@ -51,6 +51,16 @@
         android:text="@string/editmessage"
         android:hint="@string/hinttext"/>  <!--Shows a text uf the EditText is empty-->
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioButton"
+        android:text="I am a radio button"
+        />
+
+
+
+
 
 
 </LinearLayout>
