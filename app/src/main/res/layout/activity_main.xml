@@ -1,28 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--A Layout is responsible for managing the position of the widgets on the screen-->
+<!--
+    IDs: Views may have an integer id associated with them. These ids are typically assigned in the
+    layout XML files and are used to find specific views within the view tree.
+
+    A common pattern is to define a view in the layout file with a unique ID
+    <Button
+     android:id="@+id/my_button"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="@string/my_button_text"/>
+
+    From the onCreate method of an activity, find the button:
+
+    Finds the first view with the given ID. Returns null if the ID is invalid or there is no
+    matching view in the hierarchy.
+
+    public final T findViewById (int id)
+
+    Button myButton = findViewById(R.id.my_button);
+
+
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="ui.MainActivity"
+    android:orientation="horizontal">
 
     <TextView
+        android:id="@+id/textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_message"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/hello_message" />
 
     <Button
+        android:id="@+id/mybutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
-        android:text="@string/button_message"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="@string/button_message" />
+    <!--Shows text but the user can click on it and change it-->
+    <EditText
+        android:id="@+id/myedittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/editmessage"
+        android:hint="@string/hinttext"/>  <!--Shows a text uf the EditText is empty-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

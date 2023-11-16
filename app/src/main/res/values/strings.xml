@@ -2,4 +2,6 @@
     <string name="app_name">Sunrise &amp; Sunset lookup</string>
     <string name="hello_message">Hi! Welcome</string>
     <string name="button_message">I\'m a button</string>
+    <string name="editmessage"></string>
+    <string name="hinttext">Write something here</string>
 </resources>
